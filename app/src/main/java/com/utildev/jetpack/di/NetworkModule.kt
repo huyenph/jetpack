@@ -1,5 +1,6 @@
 package com.utildev.jetpack.di
 
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.utildev.jetpack.BuildConfig
@@ -65,6 +66,7 @@ object NetworkModule {
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Accept", "*/*")
                 .build()
+            Log.d("aaa", "provideAuthInterceptorOkHttpClient: $request")
 
             chain.proceed(request)
         }
@@ -82,8 +84,10 @@ object NetworkModule {
             val request: Request = chain.request().newBuilder()
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Accept", "*/*")
-                .addHeader("Authorization", "Bearer ${sharedPrefs.getString("key")}")
+                .addHeader("Authorization", "Bearer ${sharedPrefs.getString("token")}")
                 .build()
+
+            Log.d("aaa", "provideOtherInterceptorOkHttpClient: $request")
 
             chain.proceed(request)
         }

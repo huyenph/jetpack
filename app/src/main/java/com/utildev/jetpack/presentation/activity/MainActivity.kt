@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import com.utildev.jetpack.R
+import com.utildev.jetpack.data.local.sharedprefs.SharedPrefs
 import com.utildev.jetpack.data.remote.ApiClient
 import com.utildev.jetpack.domain.model.QuestionResponse
 import com.utildev.jetpack.domain.usecase.AuthUseCase
@@ -17,10 +18,13 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(), ApiClient.ResponseListener {
     @Inject
     lateinit var authUseCase: AuthUseCase
+    @Inject
+    lateinit var sharedPrefs: SharedPrefs
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        sharedPrefs.putString("token", "KCTJhLJ5*JRozzNhBK20og((")
         val apiClient = ApiClient(this, CompositeDisposable())
         apiClient.request(
             1,
