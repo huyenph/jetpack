@@ -8,10 +8,12 @@ import com.utildev.jetpack.R
 import com.utildev.jetpack.data.remote.ApiClient
 import com.utildev.jetpack.domain.model.QuestionResponse
 import com.utildev.jetpack.domain.usecase.AuthUseCase
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.disposables.CompositeDisposable
 import java.lang.reflect.Type
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), ApiClient.ResponseListener {
     @Inject
     lateinit var authUseCase: AuthUseCase

@@ -3,6 +3,7 @@ package com.utildev.jetpack.di
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.utildev.jetpack.BuildConfig
+import com.utildev.jetpack.data.local.sharedprefs.SharedPrefs
 import com.utildev.jetpack.data.remote.ApiService
 import com.utildev.jetpack.data.remote.helper.HttpInterceptor
 import dagger.Module
@@ -13,13 +14,19 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Qualifier
+import javax.inject.Singleton
 
 const val CONNECT_TIMEOUT = 1L
 const val READ_TIMEOUT = 1L
 const val WRITE_TIMEOUT = 1L
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class GsonBuilderLenient
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
@@ -29,9 +36,22 @@ annotation class AuthInterceptorOkHttpClient
 @Retention(AnnotationRetention.BINARY)
 annotation class OtherInterceptorOkHttpClient
 
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class AuthNetworkService
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class OtherNetworkService
+
 @Module
 @InstallIn(ApplicationComponent::class)
 object NetworkModule {
+    @GsonBuilderLenient
+    @Provides
+    @Singleton
+    fun provideGson(): Gson = GsonBuilder().setLenient().create()
+
     @AuthInterceptorOkHttpClient
     @Provides
     fun provideAuthInterceptorOkHttpClient(): OkHttpClient = OkHttpClient.Builder()
@@ -40,46 +60,59 @@ object NetworkModule {
         .writeTimeout(WRITE_TIMEOUT, TimeUnit.MINUTES)
         .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
         .addInterceptor(HttpInterceptor())
+        .addInterceptor { chain ->
+            val request: Request = chain.request().newBuilder()
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Accept", "*/*")
+                .build()
+
+            chain.proceed(request)
+        }
         .build()
 
     @OtherInterceptorOkHttpClient
     @Provides
-    fun provideOtherInterceptorOkHttpClient(): OkHttpClient = OkHttpClient.Builder()
+    fun provideOtherInterceptorOkHttpClient(sharedPrefs: SharedPrefs): OkHttpClient = OkHttpClient.Builder()
         .connectTimeout(CONNECT_TIMEOUT, TimeUnit.MINUTES)
         .readTimeout(READ_TIMEOUT, TimeUnit.MINUTES)
         .writeTimeout(WRITE_TIMEOUT, TimeUnit.MINUTES)
         .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
         .addInterceptor(HttpInterceptor())
         .addInterceptor { chain ->
-            val request: Request = chain.request().newBuilder().addHeader("", "").build()
+            val request: Request = chain.request().newBuilder()
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Accept", "*/*")
+                .addHeader("Authorization", "Bearer ${sharedPrefs.getString("key")}")
+                .build()
+
             chain.proceed(request)
         }
         .build()
 
-    @Provides
-    fun provideGson(): Gson = GsonBuilder().setLenient().create()
-
+    @AuthNetworkService
     @Provides
     fun provideAuthNetworkService(
         @AuthInterceptorOkHttpClient okHttpClient: OkHttpClient,
-        gson: Gson
+        @GsonBuilderLenient gson: Gson
     ): ApiService =
         Retrofit.Builder()
             .baseUrl(BuildConfig.API_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(okHttpClient)
             .build()
             .create(ApiService::class.java)
 
+    @OtherNetworkService
     @Provides
     fun provideNetworkService(
         @OtherInterceptorOkHttpClient okHttpClient: OkHttpClient,
-        gson: Gson
+        @GsonBuilderLenient gson: Gson
     ): ApiService = Retrofit.Builder()
         .baseUrl(BuildConfig.API_URL)
         .addConverterFactory(GsonConverterFactory.create(gson))
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .client(okHttpClient)
         .build()
         .create(ApiService::class.java)
-
 }

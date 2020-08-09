@@ -1,6 +1,6 @@
 package com.utildev.jetpack.di
 
-import com.utildev.jetpack.data.repository.AuthRepositoryImpl
+import com.utildev.jetpack.data.datasource.AuthDataSource
 import com.utildev.jetpack.domain.repository.AuthRepository
 import dagger.Binds
 import dagger.Module
@@ -11,5 +11,5 @@ import dagger.hilt.android.components.ActivityComponent
 @InstallIn(ActivityComponent::class)
 abstract class RepositoryModule {
     @Binds
-    abstract fun authApiService(authRepositoryImpl: AuthRepositoryImpl): AuthRepository
+    abstract fun authApiService(authDataSource: AuthDataSource): AuthRepository
 }

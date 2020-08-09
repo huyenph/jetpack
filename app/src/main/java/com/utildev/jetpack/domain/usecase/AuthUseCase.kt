@@ -5,7 +5,9 @@ import com.utildev.jetpack.domain.repository.AuthRepository
 import io.reactivex.Observable
 import javax.inject.Inject
 
-class AuthUseCase @Inject constructor(private val authRepository: AuthRepository) {
+class AuthUseCase @Inject constructor(
+    private var authRepository: AuthRepository
+) {
     fun getQuestions(site: String, page: Int): Observable<JsonObject> =
         authRepository.getQuestions(site, page)
 }
