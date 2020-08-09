@@ -11,22 +11,22 @@ import com.utildev.jetpack.data.local.persistence.entity.User
 abstract class AppDatabase : RoomDatabase() {
     abstract fun appDao(): AppDao
 
-    companion object {
-        @Volatile
-        private var instance: AppDatabase? = null
-
-        fun getInstance(context: Context): AppDatabase =
-            instance ?: synchronized(this) {
-                instance ?: buildDatabase(context).also { instance = it }
-            }
-
-        private fun buildDatabase(context: Context) =
-            Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "app.db")
-                .addCallback(object : RoomDatabase.Callback() {
-                    override fun onCreate(db: SupportSQLiteDatabase) {
-                        super.onCreate(db)
-                    }
-                })
-                .build()
-    }
+//    companion object {
+//        @Volatile
+//        private var instance: AppDatabase? = null
+//
+//        fun getInstance(context: Context): AppDatabase =
+//            instance ?: synchronized(this) {
+//                instance ?: buildDatabase(context).also { instance = it }
+//            }
+//
+//        private fun buildDatabase(context: Context) =
+//            Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "app.db")
+//                .addCallback(object : RoomDatabase.Callback() {
+//                    override fun onCreate(db: SupportSQLiteDatabase) {
+//                        super.onCreate(db)
+//                    }
+//                })
+//                .build()
+//    }
 }
