@@ -9,7 +9,7 @@ import io.reactivex.Observable
 import javax.inject.Inject
 
 class AuthDataSource @Inject constructor(
-    @AuthNetworkService private val apiService: ApiService
+    @OtherNetworkService private val apiService: ApiService
 ) : AuthRepository {
     override fun getQuestions(site: String, page: Int): Observable<JsonObject> =
         apiService.getQuestions(site, page)

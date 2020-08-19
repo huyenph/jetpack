@@ -4,7 +4,7 @@ import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.utildev.jetpack.BuildConfig
-import com.utildev.jetpack.data.local.sharedprefs.SharedPrefs
+import com.utildev.jetpack.data.local.storage.SharedPreferencesStorage
 import com.utildev.jetpack.data.remote.ApiService
 import com.utildev.jetpack.data.remote.helper.HttpInterceptor
 import dagger.Module
@@ -74,7 +74,7 @@ object NetworkModule {
 
     @OtherInterceptorOkHttpClient
     @Provides
-    fun provideOtherInterceptorOkHttpClient(sharedPrefs: SharedPrefs): OkHttpClient = OkHttpClient.Builder()
+    fun provideOtherInterceptorOkHttpClient(sharedPrefStorage: SharedPreferencesStorage): OkHttpClient = OkHttpClient.Builder()
         .connectTimeout(CONNECT_TIMEOUT, TimeUnit.MINUTES)
         .readTimeout(READ_TIMEOUT, TimeUnit.MINUTES)
         .writeTimeout(WRITE_TIMEOUT, TimeUnit.MINUTES)
@@ -84,7 +84,7 @@ object NetworkModule {
             val request: Request = chain.request().newBuilder()
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Accept", "*/*")
-                .addHeader("Authorization", "Bearer ${sharedPrefs.getString("token")}")
+                .addHeader("Authorization", "Bearer ${sharedPrefStorage.getString("token")}")
                 .build()
 
             Log.d("aaa", "provideOtherInterceptorOkHttpClient: $request")

@@ -11,5 +11,5 @@ import dagger.hilt.android.components.ActivityComponent
 @InstallIn(ActivityComponent::class)
 abstract class RepositoryModule {
     @Binds
-    abstract fun authApiService(authDataSource: AuthDataSource): AuthRepository
+    abstract fun provideAuthRepository(authDataSource: AuthDataSource): AuthRepository
 }
