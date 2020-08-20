@@ -8,7 +8,7 @@ import io.reactivex.schedulers.Schedulers
 import java.lang.reflect.Type
 
 class ApiClient(
-    private val responseListener: ResponseListener,
+    private val responseListener: ApiResponseListener,
     private val compositeDisposable: CompositeDisposable
 ) {
     fun request(code: Int, type: Type?, observable: Observable<JsonObject>) {
@@ -23,11 +23,5 @@ class ApiClient(
                 responseListener.onNext(code)
             })
         compositeDisposable.add(disposables)
-    }
-
-    interface ResponseListener {
-        fun onSuccess(code: Int, type: Type?, response: JsonObject)
-        fun onFailure(code: Int, type: Type?)
-        fun onNext(code: Int)
     }
 }
