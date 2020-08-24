@@ -1,6 +1,5 @@
 package com.utildev.jetpack.di
 
-import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.utildev.jetpack.BuildConfig
@@ -66,8 +65,6 @@ object NetworkModule {
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Accept", "*/*")
                 .build()
-            Log.d("aaa", "provideAuthInterceptorOkHttpClient: $request")
-
             chain.proceed(request)
         }
         .build()
@@ -86,9 +83,6 @@ object NetworkModule {
                 .addHeader("Accept", "*/*")
                 .addHeader("Authorization", "Bearer ${sharedPrefStorage.getString("token")}")
                 .build()
-
-            Log.d("aaa", "provideOtherInterceptorOkHttpClient: $request")
-
             chain.proceed(request)
         }
         .build()
