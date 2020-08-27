@@ -1,5 +1,6 @@
 package com.utildev.jetpack.presentation.base
 
+import android.util.Log
 import android.view.View
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
@@ -17,20 +18,10 @@ open class BaseViewModel @ViewModelInject constructor() : ViewModel(), ApiRespon
     @Inject
     lateinit var storage: Storage
 
-    protected val message = MutableLiveData<String>()
-//    val message: LiveData<String>
-//        get() = _message
-
-    protected val loadingView = ObservableInt(View.GONE)
-//    protected val messageVisibility: ObservableInt = message.observe(this, Observer {
-//        return@Observer ObservableInt(View.GONE)
-//    })
-    protected val messageString: LiveData<String> = message.map { it }
-
-
-
-    protected val enableView = ObservableBoolean(false)
-
+    val messageString = ObservableField<String>()
+    val loadingView = ObservableInt(View.GONE)
+    val messageView = ObservableInt(View.GONE)
+    val enableView = ObservableBoolean(true)
 
     override fun onSuccess(code: Int, type: Type?, response: JsonObject) {
     }
@@ -49,10 +40,11 @@ open class BaseViewModel @ViewModelInject constructor() : ViewModel(), ApiRespon
         viewModelScope.launch {
             try {
                 showLoading()
+                dismissMessage()
                 block()
             } catch (e: Throwable) {
                 dismissLoading()
-                message.value = "Error"
+                showMessage("Error")
             } finally {
                 dismissLoading()
             }
@@ -60,7 +52,7 @@ open class BaseViewModel @ViewModelInject constructor() : ViewModel(), ApiRespon
     }
 
     fun showLoading() {
-        if (loadingView.get() != View.VISIBLE) {
+        if (loadingView.get() == View.GONE) {
             loadingView.set(View.VISIBLE)
             enableView.set(false)
         }
@@ -73,15 +65,17 @@ open class BaseViewModel @ViewModelInject constructor() : ViewModel(), ApiRespon
         }
     }
 
-    fun showMessage() {
-//        if (messageView.get() != View.VISIBLE) {
-//            messageView.set(View.VISIBLE)
-//        }
+    fun showMessage(message: String) {
+        messageString.set(message)
+        if (messageView.get() == View.GONE) {
+            messageView.set(View.VISIBLE)
+        }
     }
 
     fun dismissMessage() {
-//        if (messageView.get() == View.VISIBLE) {
-//            messageView.set(View.GONE)
-//        }
+        messageString.set(null)
+        if (messageView.get() == View.VISIBLE) {
+            messageView.set(View.GONE)
+        }
     }
 }

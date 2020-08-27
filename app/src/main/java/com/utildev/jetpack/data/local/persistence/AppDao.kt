@@ -11,10 +11,10 @@ import io.reactivex.Flowable
 @Dao
 interface AppDao {
     @Query("SELECT * FROM users WHERE userId = :id")
-    suspend fun getAppId(id: String): Flowable<User>
+    suspend fun getAppId(id: String): User
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertUser(user: User): Completable
+    suspend fun insertUser(user: User)
 
     @Query("DELETE FROM users")
     suspend fun deleteAllUsers()

@@ -1,5 +1,6 @@
 package com.utildev.jetpack.presentation.activity
 
+import android.util.Log
 import android.view.View
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
@@ -9,6 +10,11 @@ import kotlinx.coroutines.launch
 
 class MainViewModel @ViewModelInject constructor(
     private val authUseCase: AuthUseCase
-): BaseViewModel() {
+) : BaseViewModel() {
 
+    fun onClick() {
+        launchDataLoad {
+            authUseCase.getQuestions("stackoverflow", 1)
+        }
+    }
 }
