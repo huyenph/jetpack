@@ -11,6 +11,8 @@ import com.utildev.jetpack.domain.model.QuestionResponse
 import com.utildev.jetpack.domain.usecase.AuthUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.lang.reflect.Type
 import javax.inject.Inject
 
@@ -25,5 +27,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         sharedPrefStorage.setString("token", "KCTJhLJ5*JRozzNhBK20og((")
+
+//        authUseCase.getQuestions("stackoverflow", 1)
     }
 }

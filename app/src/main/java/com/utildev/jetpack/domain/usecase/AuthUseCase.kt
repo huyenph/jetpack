@@ -2,12 +2,11 @@ package com.utildev.jetpack.domain.usecase
 
 import com.google.gson.JsonObject
 import com.utildev.jetpack.domain.repository.AuthRepository
-import io.reactivex.Observable
 import javax.inject.Inject
 
 class AuthUseCase @Inject constructor(
     private var authRepository: AuthRepository
 ) {
-    fun getQuestions(site: String, page: Int): Observable<JsonObject> =
+    suspend fun getQuestions(site: String, page: Int): JsonObject =
         authRepository.getQuestions(site, page)
 }
