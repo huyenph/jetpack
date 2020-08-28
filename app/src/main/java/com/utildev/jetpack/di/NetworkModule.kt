@@ -119,7 +119,7 @@ object NetworkModule {
         .readTimeout(READ_TIMEOUT, TimeUnit.MINUTES)
         .writeTimeout(WRITE_TIMEOUT, TimeUnit.MINUTES)
         .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-//        .addInterceptor(HttpInterceptor())
+        .addInterceptor(HttpInterceptor())
         .addInterceptor { chain ->
             val request: Request = chain.request().newBuilder()
                 .addHeader("Content-Type", "application/json")
@@ -153,7 +153,8 @@ object NetworkModule {
     ): ApiService = Retrofit.Builder()
         .baseUrl(BuildConfig.API_URL)
         .addConverterFactory(GsonConverterFactory.create(gson))
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        .addCallAdapterFactory(NetworkResponseAdapterFactory())
+//        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .client(okHttpClient)
         .build()
         .create(ApiService::class.java)
