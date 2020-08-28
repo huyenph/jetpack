@@ -1,14 +1,21 @@
 package com.utildev.jetpack.data.remote.helper
 
 import android.text.TextUtils
+import android.util.Log
 import okhttp3.Interceptor
 import okhttp3.Protocol
+import okhttp3.Request
 import okhttp3.Response
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.json.JSONObject
 
 class HttpInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
+        try {
+
+        } catch (e: Exception) {
+            Log.d("aaa", "intercept: $e")
+        }
         val response = chain.proceed(chain.request())
         if (response.code >= 400) {
             throw Exception(HttpError.getErrorString(response))
@@ -49,4 +56,7 @@ class HttpInterceptor : Interceptor {
         return response
     }
 
+//    private fun makeUnknownResult(request: Request): Response {
+//
+//    }
 }

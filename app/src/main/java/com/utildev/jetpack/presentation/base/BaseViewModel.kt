@@ -43,6 +43,7 @@ open class BaseViewModel @ViewModelInject constructor() : ViewModel(), ApiRespon
                 dismissMessage()
                 block()
             } catch (e: Throwable) {
+                Log.d("aaa", "launchDataLoad: $e")
                 dismissLoading()
                 showMessage("Error")
             } finally {
