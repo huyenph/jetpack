@@ -23,4 +23,11 @@ class ApiClient(
             is NetworkResponse.UnknownError -> responseListener.onUnknownError(response.code)
         }
     }
+
+    interface ApiResponseListener {
+        fun onSuccess(code: Int, type: Type?, response: JsonObject)
+        fun onFailure(code: Int, errorResponse: ErrorResponse)
+        fun onNetworkError(code: Int)
+        fun onUnknownError(code: Int)
+    }
 }

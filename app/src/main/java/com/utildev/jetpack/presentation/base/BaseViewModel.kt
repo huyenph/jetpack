@@ -10,14 +10,14 @@ import androidx.lifecycle.*
 import com.google.gson.JsonObject
 import com.utildev.jetpack.data.local.storage.Storage
 import com.utildev.jetpack.data.remote.ApiClient
-import com.utildev.jetpack.data.remote.ApiResponseListener
 import com.utildev.jetpack.data.remote.response.ErrorResponse
 import kotlinx.coroutines.launch
 import java.lang.reflect.Type
 import javax.inject.Inject
 
 @Suppress("LeakingThis")
-open class BaseViewModel @ViewModelInject constructor() : ViewModel(), ApiResponseListener {
+open class BaseViewModel @ViewModelInject constructor() : ViewModel(),
+    ApiClient.ApiResponseListener {
     @Inject
     lateinit var storage: Storage
 
