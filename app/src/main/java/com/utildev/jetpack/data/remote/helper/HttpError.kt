@@ -1,4 +1,4 @@
-package com.utildev.jetpack.data.remote
+package com.utildev.jetpack.data.remote.helper
 
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName

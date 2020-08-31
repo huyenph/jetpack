@@ -2,6 +2,7 @@
   <dictionary name="it">
     <words>
       <w>doctype</w>
+      <w>gson</w>
     </words>
   </dictionary>
 </component>
