@@ -9,12 +9,15 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.google.gson.JsonObject
 import com.utildev.jetpack.data.local.storage.Storage
-import com.utildev.jetpack.data.remote.ApiResponseListener
+import com.utildev.jetpack.data.remote.ApiClient
+import com.utildev.jetpack.data.remote.response.ErrorResponse
 import kotlinx.coroutines.launch
 import java.lang.reflect.Type
 import javax.inject.Inject
 
-open class BaseViewModel @ViewModelInject constructor() : ViewModel(), ApiResponseListener {
+@Suppress("LeakingThis")
+open class BaseViewModel @ViewModelInject constructor() : ViewModel(),
+    ApiClient.ApiResponseListener {
     @Inject
     lateinit var storage: Storage
 
@@ -23,17 +26,22 @@ open class BaseViewModel @ViewModelInject constructor() : ViewModel(), ApiRespon
     val messageView = ObservableInt(View.GONE)
     val enableView = ObservableBoolean(true)
 
+    protected val apiClient = ApiClient(this)
+
     override fun onSuccess(code: Int, type: Type?, response: JsonObject) {
+        Log.d("aaa", "onSuccess: $code - $response")
     }
 
-    override fun onFailure(code: Int, type: Type?) {
+    override fun onFailure(code: Int, errorResponse: ErrorResponse) {
+        Log.d("aaa", "onFailure: $code - $errorResponse")
     }
 
-    override fun onNext(code: Int) {
+    override fun onNetworkError(code: Int) {
+        Log.d("aaa", "onNetworkError: $code")
     }
 
-    override fun onCleared() {
-        super.onCleared()
+    override fun onUnknownError(code: Int) {
+        Log.d("aaa", "onUnknownError: $code")
     }
 
     protected fun launchDataLoad(block: suspend () -> Unit): Unit {

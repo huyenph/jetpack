@@ -1,27 +1,33 @@
 package com.utildev.jetpack.data.remote
 
 import com.google.gson.JsonObject
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import com.utildev.jetpack.data.remote.adapter.NetworkResponse
+import com.utildev.jetpack.data.remote.response.ErrorResponse
 import java.lang.reflect.Type
 
 class ApiClient(
-    private val responseListener: ApiResponseListener,
-    private val compositeDisposable: CompositeDisposable
+    private val responseListener: ApiResponseListener
 ) {
-    fun request(code: Int, type: Type?, observable: Observable<JsonObject>) {
-        val disposables = observable
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                responseListener.onSuccess(code, type, it)
-            }, {
-                responseListener.onFailure(code, type)
-            }, {
-                responseListener.onNext(code)
-            })
-        compositeDisposable.add(disposables)
+    fun request(code: Int, type: Type?, response: NetworkResponse<JsonObject, ErrorResponse>) {
+        when (response) {
+            is NetworkResponse.Success -> responseListener.onSuccess(
+                code,
+                type,
+                response.body
+            )
+            is NetworkResponse.Failure -> responseListener.onFailure(
+                code,
+                response.body
+            )
+            is NetworkResponse.NetworkError -> responseListener.onNetworkError(response.code)
+            is NetworkResponse.UnknownError -> responseListener.onUnknownError(response.code)
+        }
+    }
+
+    interface ApiResponseListener {
+        fun onSuccess(code: Int, type: Type?, response: JsonObject)
+        fun onFailure(code: Int, errorResponse: ErrorResponse)
+        fun onNetworkError(code: Int)
+        fun onUnknownError(code: Int)
     }
 }
