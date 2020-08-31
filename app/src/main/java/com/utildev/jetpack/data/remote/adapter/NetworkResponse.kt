@@ -16,10 +16,10 @@ sealed class NetworkResponse<out S : Any, out E : Any> {
     /**
      * Network error
      */
-    data class NetworkError(val error: IOException) : NetworkResponse<Nothing, Nothing>()
+    data class NetworkError(val code: Int, val error: IOException) : NetworkResponse<Nothing, Nothing>()
 
     /**
      * For example, json parsing error
      */
-    data class UnknownError(val error: Throwable?) : NetworkResponse<Nothing, Nothing>()
+    data class UnknownError(val code: Int, val error: Throwable?) : NetworkResponse<Nothing, Nothing>()
 }

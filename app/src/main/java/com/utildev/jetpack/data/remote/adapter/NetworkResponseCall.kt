@@ -28,7 +28,7 @@ class NetworkResponseCall<S : Any, E : Any>(
                     } else {
                         callback.onResponse(
                             this@NetworkResponseCall,
-                            Response.success(NetworkResponse.UnknownError(null))
+                            Response.success(NetworkResponse.UnknownError(code, null))
                         )
                     }
                 } else {
@@ -49,7 +49,7 @@ class NetworkResponseCall<S : Any, E : Any>(
                     } else {
                         callback.onResponse(
                             this@NetworkResponseCall,
-                            Response.success(NetworkResponse.UnknownError(null))
+                            Response.success(NetworkResponse.UnknownError(code, null))
                         )
                     }
                 }
@@ -57,8 +57,8 @@ class NetworkResponseCall<S : Any, E : Any>(
 
             override fun onFailure(call: Call<S>, t: Throwable) {
                 val networkResponse = when (t) {
-                    is IOException -> NetworkResponse.NetworkError(t)
-                    else -> NetworkResponse.UnknownError(t)
+                    is IOException -> NetworkResponse.NetworkError(500, t)
+                    else -> NetworkResponse.UnknownError(400, t)
                 }
                 callback.onResponse(
                     this@NetworkResponseCall,
