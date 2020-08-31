@@ -1,43 +1,40 @@
 package com.utildev.jetpack.data.remote.helper
 
 import android.text.TextUtils
-import android.util.Log
 import okhttp3.Interceptor
 import okhttp3.Protocol
-import okhttp3.Request
 import okhttp3.Response
 import okhttp3.ResponseBody.Companion.toResponseBody
+import org.json.JSONException
 import org.json.JSONObject
+import java.io.IOException
 
 class HttpInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        try {
-
-        } catch (e: Exception) {
-            Log.d("aaa", "intercept: $e")
-        }
         val response = chain.proceed(chain.request())
         if (response.code >= 400) {
             throw Exception(HttpError.getErrorString(response))
         }
-        if (response.body != null) {
-            val r = response.body!!.string()
-            val resultObject = JSONObject()
-            if (TextUtils.equals(r, "[]")) {
-                /**
-                 * Generate a success response.
-                 * HTTP/1.1 200 OK
-                 * Content-type: application/json
-                 * "$random_string"
-                 */
-                resultObject.put("message", "unknown result")
-                return response.newBuilder()
-                    .code(200)
-                    .protocol(Protocol.HTTP_1_1)
-                    .message("OK")
-                    .body(resultObject.toString().toResponseBody(response.body!!.contentType()))
-                    .build()
-            } else if (JSONObject(r).has("error")) {
+        val root = response.peekBody(Long.MAX_VALUE).string()
+        val resultObject = JSONObject()
+        if (TextUtils.equals(root, "[]")) {
+            /**
+             * Generate a success response.
+             * HTTP/1.1 200 OK
+             * Content-type: application/json
+             * "$random_string"
+             */
+            resultObject.put("message", "unknown result")
+            return response.newBuilder()
+                .code(200)
+                .protocol(Protocol.HTTP_1_1)
+                .message("OK")
+                .body(resultObject.toString().toResponseBody(response.body!!.contentType()))
+                .build()
+        }
+        try {
+            val jsonObject = JSONObject(root)
+            if (jsonObject.has("error")) {
                 /**
                  * Generate an error result.
                  * HTTP/1.1 500 Bad server day
@@ -52,11 +49,9 @@ class HttpInterceptor : Interceptor {
                     .body(resultObject.toString().toResponseBody(response.body!!.contentType()))
                     .build()
             }
+        } catch (e: JSONException) {
+            throw IOException(e.message)
         }
         return response
     }
-
-//    private fun makeUnknownResult(request: Request): Response {
-//
-//    }
 }
