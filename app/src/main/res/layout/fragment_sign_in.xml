@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.fragment.auth.SignInFragment">
+
+    <TextView
+        android:id="@+id/fmSignIn_tvEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_20dp"
+        android:text="@string/email"
+        android:textSize="@dimen/_13dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/fmSignIn_etEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_20dp"
+        android:layout_marginTop="@dimen/_10dp"
+        android:layout_marginEnd="@dimen/_20dp"
+        android:background="@drawable/edit_text_corner"
+        android:elevation="@dimen/_5dp"
+        android:inputType="textEmailAddress"
+        android:paddingStart="@dimen/_5dp"
+        android:paddingTop="@dimen/_10dp"
+        android:paddingEnd="@dimen/_5dp"
+        android:paddingBottom="@dimen/_10dp"
+        android:textColor="@color/textColor"
+        android:textSize="@dimen/_12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fmSignIn_tvEmail"
+        tools:ignore="Autofill,LabelFor,TextFields"
+        tools:text="user name" />
+
+    <TextView
+        android:id="@+id/fmSignIn_tvPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_20dp"
+        android:layout_marginTop="@dimen/_30dp"
+        android:text="@string/password"
+        android:textSize="@dimen/_13dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fmSignIn_etEmail" />
+
+    <EditText
+        android:id="@+id/fmSignIn_etPassword"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_20dp"
+        android:layout_marginTop="@dimen/_10dp"
+        android:layout_marginEnd="@dimen/_20dp"
+        android:background="@drawable/edit_text_corner"
+        android:elevation="@dimen/_5dp"
+        android:inputType="textPassword"
+        android:paddingStart="@dimen/_5dp"
+        android:paddingTop="@dimen/_10dp"
+        android:paddingEnd="@dimen/_5dp"
+        android:paddingBottom="@dimen/_10dp"
+        android:textColor="@color/textColor"
+        android:textSize="@dimen/_12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fmSignIn_tvPassword"
+        tools:ignore="Autofill,LabelFor"
+        tools:text="01234567890" />
+
+    <TextView
+        android:id="@+id/fmSignIn_btSignIn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_20dp"
+        android:layout_marginTop="@dimen/_50dp"
+        android:layout_marginEnd="@dimen/_20dp"
+        android:background="@drawable/text_view_corner_primary"
+        android:elevation="@dimen/_5dp"
+        android:padding="@dimen/_10dp"
+        android:text="@string/sign_in"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="@color/background"
+        android:textSize="@dimen/_15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fmSignIn_etPassword" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/_5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/_5dp"
+            android:paddingBottom="@dimen/_5dp"
+            android:text="@string/don_t_have_an_account"
+            android:textColor="@color/subTextColor" />
+
+        <TextView
+            android:id="@+id/fmSignIn_tvSignUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_5dp"
+            android:text="@string/sign_up"
+            android:textColor="@color/colorPrimary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/_5dp"
+            android:paddingBottom="@dimen/_5dp"
+            android:text="@string/here"
+            android:textColor="@color/subTextColor" />
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
