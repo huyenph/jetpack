@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="role"
+            type="com.utildev.jetpack.data.remote.response.role.RoleItem" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_corner_gray"
+        android:padding="@dimen/_20dp">
+
+        <CheckedTextView
+            android:id="@+id/itRole_tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkMark="@drawable/check_box"
+            android:gravity="center"
+            android:text="@{role.title}"
+            android:textSize="@dimen/_12dp"
+            android:textColor="@color/subTextColor"
+            tools:text="Developer" />
+
+    </FrameLayout>
+</layout>

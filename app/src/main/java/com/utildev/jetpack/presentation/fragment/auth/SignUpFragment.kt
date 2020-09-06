@@ -52,9 +52,9 @@ class SignUpFragment : Fragment() {
     ): View? {
         mView = inflater.inflate(R.layout.fragment_sign_up, container, false)
 
-        mView!!.fmSignUp_tvSignIn.setOnClickListener {
-            mView!!.findNavController().popBackStack()
-        }
+//        mView!!.fmSignUp_tvSignIn.setOnClickListener {
+//            mView!!.findNavController().popBackStack()
+//        }
         return mView
     }
 
