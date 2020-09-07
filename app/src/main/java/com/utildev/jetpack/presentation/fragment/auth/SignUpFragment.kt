@@ -3,12 +3,19 @@ package com.utildev.jetpack.presentation.fragment.auth
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import com.utildev.jetpack.BR
 import com.utildev.jetpack.R
+import com.utildev.jetpack.common.SpaceItemDecoration
+import com.utildev.jetpack.databinding.FragmentSignUpBinding
+import com.utildev.jetpack.domain.response.role.RoleItem
+import com.utildev.jetpack.presentation.activity.auth.AuthActivity
+import com.utildev.jetpack.presentation.activity.auth.AuthViewModel
+import com.utildev.jetpack.presentation.base.BaseAdapter
+import com.utildev.jetpack.presentation.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_sign_up.view.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -21,13 +28,16 @@ private const val ARG_PARAM2 = "param2"
  * Use the [SignUpFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class SignUpFragment : Fragment() {
-    private var mView: View? = null
-    private lateinit var onBackPressedCallback: OnBackPressedCallback
+@AndroidEntryPoint
+class SignUpFragment : BaseFragment<FragmentSignUpBinding, AuthViewModel>(),
+    BaseAdapter.AdapterListener {
 
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    private lateinit var roleAdapter: RoleAdapter
+    private lateinit var roleLayoutManager: GridLayoutManager
+    private val selectedRoles: ArrayList<RoleItem> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,27 +45,41 @@ class SignUpFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-
-        val callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                mView!!.findNavController().popBackStack()
-                Log.d("aaa", "handleOnBackPressed: ")
-            }
-
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        mView = inflater.inflate(R.layout.fragment_sign_up, container, false)
+    override fun layoutId(): Int = R.layout.fragment_sign_up
 
-//        mView!!.fmSignUp_tvSignIn.setOnClickListener {
-//            mView!!.findNavController().popBackStack()
-//        }
-        return mView
+    override fun bindingVariable(): Int? = BR.vm
+
+    override fun viewModel(): AuthViewModel? = (activity as AuthActivity).authViewModel
+
+    override fun init(view: View) {
+        view.fmSignUp_tvSignUp.setOnClickListener(this)
+        view.fmSignUp_tvSignIn.setOnClickListener(this)
+
+        roleLayoutManager = GridLayoutManager(context, 2)
+        roleAdapter = RoleAdapter(view.fmSignUp_rvRole, roleLayoutManager, this)
+        roleAdapter.set((activity as AuthActivity).roles)
+        val spacingInPixel = resources.getDimensionPixelSize(R.dimen._10dp)
+        view.fmSignUp_rvRole.run {
+            layoutManager = roleLayoutManager
+            adapter = roleAdapter
+            setHasFixedSize(true)
+        }
+        view.fmSignUp_rvRole.addItemDecoration(SpaceItemDecoration(spacingInPixel, 2, false))
+    }
+
+    override fun onClick(v: View?) {
+        if (v != null) {
+            when (v.id) {
+                R.id.fmSignUp_tvSignUp -> {
+                    selectedRoles.forEach {
+                        Log.d("aaa", "onClick: $it")
+                    }
+                }
+                R.id.fmSignUp_tvSignIn -> v.findNavController().popBackStack()
+            }
+        }
     }
 
     companion object {
@@ -77,4 +101,18 @@ class SignUpFragment : Fragment() {
                 }
             }
     }
+
+    override fun onItemClick(`object`: Any, position: Int) {
+        if (`object` is RoleItem) {
+            if (selectedRoles.contains(`object`)) {
+                selectedRoles.remove(`object`)
+            } else {
+                selectedRoles.add(`object`)
+            }
+        }
+    }
+
+    override fun onItemLongClick(`object`: Any, position: Int): Boolean = false
+
+    override fun onLoadMore() {}
 }

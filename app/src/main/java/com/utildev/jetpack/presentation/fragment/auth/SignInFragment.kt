@@ -2,11 +2,15 @@ package com.utildev.jetpack.presentation.fragment.auth
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.navigation.findNavController
+import com.utildev.jetpack.BR
 import com.utildev.jetpack.R
+import com.utildev.jetpack.databinding.FragmentSignInBinding
+import com.utildev.jetpack.presentation.activity.auth.AuthActivity
+import com.utildev.jetpack.presentation.activity.auth.AuthViewModel
+import com.utildev.jetpack.presentation.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_sign_in.view.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -19,9 +23,8 @@ private const val ARG_PARAM2 = "param2"
  * Use the [SignInFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class SignInFragment : Fragment() {
-    private var mView: View? = null
-
+@AndroidEntryPoint
+class SignInFragment : BaseFragment<FragmentSignInBinding, AuthViewModel>() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -34,16 +37,28 @@ class SignInFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        mView = inflater.inflate(R.layout.fragment_sign_in, container, false)
-        mView!!.fmSignIn_tvSignUp.setOnClickListener {
-            val action = SignInFragmentDirections.signInToSignUp()
-            mView!!.findNavController().navigate(action)
+    override fun layoutId(): Int = R.layout.fragment_sign_in
+
+    override fun bindingVariable(): Int? = BR.vm
+
+    override fun viewModel(): AuthViewModel? = (activity as AuthActivity).authViewModel
+
+    override fun init(view: View) {
+        view.fmSignIn_tvSignIn.setOnClickListener(this)
+        view.fmSignIn_tvSignUp.setOnClickListener(this)
+    }
+
+    override fun onClick(v: View?) {
+        if (v != null) {
+            when (v.id) {
+                R.id.fmSignIn_tvSignIn -> {
+                }
+                R.id.fmSignIn_tvSignUp -> {
+                    val action = SignInFragmentDirections.signInToSignUp()
+                    v.findNavController().navigate(action)
+                }
+            }
         }
-        return mView
     }
 
     companion object {
@@ -65,4 +80,6 @@ class SignInFragment : Fragment() {
                 }
             }
     }
+
+
 }

@@ -1,111 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:elevation="@dimen/_5dp"
-    android:layout_margin="@dimen/_20dp"
-    app:cardCornerRadius="@dimen/_5dp"
-    android:layout_gravity="center"
-    tools:context=".presentation.fragment.auth.SignInFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+
+        <variable
+            name="vm"
+            type="com.utildev.jetpack.presentation.activity.auth.AuthViewModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/_30dp">
+        android:layout_margin="@dimen/_20dp"
+        android:elevation="@dimen/_5dp"
+        app:cardCornerRadius="@dimen/_5dp"
+        tools:context=".presentation.fragment.auth.SignInFragment">
 
-        <EditText
-            android:id="@+id/fmSignIn_etEmail"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10dp"
-            android:background="@drawable/shape_corner_gray"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress"
-            android:paddingStart="@dimen/_5dp"
-            android:paddingTop="@dimen/_10dp"
-            android:paddingEnd="@dimen/_5dp"
-            android:paddingBottom="@dimen/_10dp"
-            android:textColor="@color/textColor"
-            android:textSize="@dimen/_12dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="Autofill,LabelFor,TextFields" />
+            android:padding="@dimen/_30dp">
 
-        <EditText
-            android:id="@+id/fmSignIn_etPassword"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_20dp"
-            android:background="@drawable/shape_corner_gray"
-            android:hint="@string/password"
-            android:inputType="textPassword"
-            android:paddingStart="@dimen/_5dp"
-            android:paddingTop="@dimen/_10dp"
-            android:paddingEnd="@dimen/_5dp"
-            android:paddingBottom="@dimen/_10dp"
-            android:textColor="@color/textColor"
-            android:textSize="@dimen/_12dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fmSignIn_etEmail"
-            tools:ignore="Autofill,LabelFor" />
+            <EditText
+                android:id="@+id/fmSignIn_etEmail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10dp"
+                android:background="@drawable/shape_corner_gray"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:paddingStart="@dimen/_5dp"
+                android:paddingTop="@dimen/_10dp"
+                android:paddingEnd="@dimen/_5dp"
+                android:paddingBottom="@dimen/_10dp"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="Autofill,LabelFor,TextFields" />
 
-        <TextView
-            android:id="@+id/fmSignIn_tvSignIn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_20dp"
-            android:background="@drawable/pressed_corner_primary"
-            android:padding="@dimen/_10dp"
-            android:text="@string/sign_in"
-            android:textAlignment="center"
-            android:textColor="@color/background"
-            android:textSize="@dimen/_15dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fmSignIn_etPassword" />
+            <EditText
+                android:id="@+id/fmSignIn_etPassword"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20dp"
+                android:background="@drawable/shape_corner_gray"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:paddingStart="@dimen/_5dp"
+                android:paddingTop="@dimen/_10dp"
+                android:paddingEnd="@dimen/_5dp"
+                android:paddingBottom="@dimen/_10dp"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/_12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fmSignIn_etEmail"
+                tools:ignore="Autofill,LabelFor" />
 
-        <TextView
-            android:id="@+id/fmSignIn_tvForgotPw"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:padding="@dimen/_20dp"
-            android:text="@string/forgot_password"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/_15dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fmSignIn_tvSignIn" />
+            <TextView
+                android:id="@+id/fmSignIn_tvSignIn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20dp"
+                android:background="@drawable/pressed_corner_primary"
+                android:padding="@dimen/_10dp"
+                android:text="@string/sign_in"
+                android:textAlignment="center"
+                android:textColor="@color/background"
+                android:textSize="@dimen/_15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fmSignIn_etPassword" />
 
-        <View
-            android:id="@+id/line"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/_1dp"
-            android:background="@color/grayColor"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fmSignIn_tvForgotPw" />
+            <TextView
+                android:id="@+id/fmSignIn_tvForgotPw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_20dp"
+                android:text="@string/forgot_password"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fmSignIn_tvSignIn" />
 
-        <TextView
-            android:id="@+id/fmSignIn_tvSignUp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_20dp"
-            android:background="@drawable/pressed_corner_green"
-            android:paddingStart="@dimen/_20dp"
-            android:paddingTop="@dimen/_10dp"
-            android:paddingEnd="@dimen/_20dp"
-            android:paddingBottom="@dimen/_10dp"
-            android:text="@string/create_an_account"
-            android:textColor="@color/background"
-            android:textSize="@dimen/_15dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/line" />
+            <View
+                android:id="@+id/line"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_1dp"
+                android:background="@color/grayColor"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fmSignIn_tvForgotPw" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/fmSignIn_tvSignUp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20dp"
+                android:background="@drawable/pressed_corner_green"
+                android:paddingStart="@dimen/_20dp"
+                android:paddingTop="@dimen/_10dp"
+                android:paddingEnd="@dimen/_20dp"
+                android:paddingBottom="@dimen/_10dp"
+                android:text="@string/create_an_account"
+                android:textColor="@color/background"
+                android:textSize="@dimen/_15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/line" />
 
-</androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>
