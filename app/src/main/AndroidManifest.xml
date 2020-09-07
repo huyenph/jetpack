@@ -13,6 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
         <activity android:name=".presentation.activity.auth.AuthActivity">
             <intent-filter>
@@ -21,7 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.activity.MainActivity">
+        <activity android:name=".presentation.activity.main.MainActivity">
 
         </activity>
     </application>

@@ -1,4 +1,4 @@
-package com.utildev.jetpack.domain.model
+package com.utildev.jetpack.domain
 
 import java.io.Serializable
 

@@ -1,7 +1,7 @@
-package com.utildev.jetpack.data.remote.response.role
+package com.utildev.jetpack.domain.response.role
 
 import com.google.gson.annotations.SerializedName
-import com.utildev.jetpack.domain.model.BaseModel
+import com.utildev.jetpack.domain.BaseModel
 
 data class RoleItem(
     @SerializedName("_id") val id: String? = null,

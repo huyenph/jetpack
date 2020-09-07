@@ -6,7 +6,7 @@
 
         <variable
             name="role"
-            type="com.utildev.jetpack.data.remote.response.role.RoleItem" />
+            type="com.utildev.jetpack.domain.response.role.RoleItem" />
     </data>
 
     <FrameLayout

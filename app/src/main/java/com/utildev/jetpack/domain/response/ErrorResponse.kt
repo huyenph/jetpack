@@ -1,7 +1,7 @@
-package com.utildev.jetpack.data.remote.response
+package com.utildev.jetpack.domain.response
 
 import com.google.gson.annotations.SerializedName
-import com.utildev.jetpack.domain.model.BaseModel
+import com.utildev.jetpack.domain.BaseModel
 
 data class ErrorResponse(
     @SerializedName("error_id") val errorId: Int = 0,

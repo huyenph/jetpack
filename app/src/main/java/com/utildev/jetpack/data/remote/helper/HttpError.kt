@@ -2,7 +2,7 @@ package com.utildev.jetpack.data.remote.helper
 
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
-import com.utildev.jetpack.domain.model.BaseModel
+import com.utildev.jetpack.domain.BaseModel
 import okhttp3.Response
 
 class HttpError : BaseModel() {
