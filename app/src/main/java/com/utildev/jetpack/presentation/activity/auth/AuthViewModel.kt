@@ -7,8 +7,11 @@ import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import com.utildev.jetpack.di.GsonBuilderLenient
+import com.utildev.jetpack.domain.request.auth.RoleRequest
+import com.utildev.jetpack.domain.request.auth.UserRequest
+import com.utildev.jetpack.domain.response.BaseResponse
 import com.utildev.jetpack.domain.response.ErrorResponse
-import com.utildev.jetpack.domain.response.role.Role
+import com.utildev.jetpack.domain.response.role.RoleResponse
 import com.utildev.jetpack.domain.response.role.RoleItem
 import com.utildev.jetpack.domain.usecase.AuthUseCase
 import com.utildev.jetpack.presentation.base.BaseViewModel
@@ -24,8 +27,11 @@ class AuthViewModel @ViewModelInject constructor(
         super.onSuccess(code, type, response)
         try {
             if (code == 1) {
-                val role = gson.fromJson(response, type) as Role
+                val role = gson.fromJson(response, type) as RoleResponse
                 roles.value = role.items
+            } else if (code == 2) {
+                val baseResponse = gson.fromJson(response, type) as BaseResponse
+                Log.d("aaa", "onSuccess: $baseResponse")
             }
         } catch (e: Exception) {
             Log.d("aaa", "onSuccess: $e")
@@ -49,8 +55,31 @@ class AuthViewModel @ViewModelInject constructor(
         launchDataLoad {
             apiClient.request(
                 1,
-                object : TypeToken<Role>() {}.type,
+                object : TypeToken<RoleResponse>() {}.type,
                 authUseCase.fetchRoles()
+            )
+        }
+    }
+
+    fun createUser(
+        firstName: String,
+        lastName: String,
+        email: String,
+        password: String,
+        roles: ArrayList<RoleRequest>
+    ) {
+        val userRequest = UserRequest(
+            firstName,
+            lastName,
+            email,
+            password,
+            roles
+        )
+        launchDataLoad {
+            apiClient.request(
+                2,
+                object: TypeToken<BaseResponse>(){}.type,
+                authUseCase.createUser(gson.toJson(userRequest))
             )
         }
     }

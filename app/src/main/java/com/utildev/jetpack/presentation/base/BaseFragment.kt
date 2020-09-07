@@ -13,7 +13,7 @@ import androidx.navigation.findNavController
 
 abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel> : Fragment(), View.OnClickListener {
     private lateinit var binding: T
-    private lateinit var rootView: View
+    lateinit var rootView: View
 
     private lateinit var onBackPressedCallback: OnBackPressedCallback
 

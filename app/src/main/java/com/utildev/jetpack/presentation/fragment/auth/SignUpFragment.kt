@@ -10,6 +10,7 @@ import com.utildev.jetpack.BR
 import com.utildev.jetpack.R
 import com.utildev.jetpack.common.SpaceItemDecoration
 import com.utildev.jetpack.databinding.FragmentSignUpBinding
+import com.utildev.jetpack.domain.request.auth.RoleRequest
 import com.utildev.jetpack.domain.response.role.RoleItem
 import com.utildev.jetpack.presentation.activity.auth.AuthActivity
 import com.utildev.jetpack.presentation.activity.auth.AuthViewModel
@@ -37,7 +38,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, AuthViewModel>(),
 
     private lateinit var roleAdapter: RoleAdapter
     private lateinit var roleLayoutManager: GridLayoutManager
-    private val selectedRoles: ArrayList<RoleItem> = ArrayList()
+    private val selectedRoles: ArrayList<RoleRequest> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,9 +74,16 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, AuthViewModel>(),
         if (v != null) {
             when (v.id) {
                 R.id.fmSignUp_tvSignUp -> {
-                    selectedRoles.forEach {
-                        Log.d("aaa", "onClick: $it")
-                    }
+                    (activity as AuthActivity).authViewModel.createUser(
+                        viewDataBinding().fmSignUpEtFirstName.text.trim().toString(),
+                        viewDataBinding().fmSignUpEtLastName.text.trim().toString(),
+                        viewDataBinding().fmSignUpEtEmail.text.trim().toString(),
+                        viewDataBinding().fmSignUpEtPassword.text.trim().toString(),
+                        selectedRoles
+                    )
+//                    selectedRoles.forEach {
+//                        Log.d("aaa", "onClick: $it")
+//                    }
                 }
                 R.id.fmSignUp_tvSignIn -> v.findNavController().popBackStack()
             }
@@ -104,10 +112,15 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, AuthViewModel>(),
 
     override fun onItemClick(`object`: Any, position: Int) {
         if (`object` is RoleItem) {
-            if (selectedRoles.contains(`object`)) {
-                selectedRoles.remove(`object`)
+            val roleRequest = RoleRequest(
+                `object`.id!!,
+                `object`.code!!,
+                `object`.title!!
+            )
+            if (selectedRoles.contains(roleRequest)) {
+                selectedRoles.remove(roleRequest)
             } else {
-                selectedRoles.add(`object`)
+                selectedRoles.add(roleRequest)
             }
         }
     }
