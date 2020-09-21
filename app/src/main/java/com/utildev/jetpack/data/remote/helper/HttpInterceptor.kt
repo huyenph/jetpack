@@ -1,6 +1,7 @@
 package com.utildev.jetpack.data.remote.helper
 
 import android.text.TextUtils
+import android.util.Log
 import okhttp3.Interceptor
 import okhttp3.Protocol
 import okhttp3.Response
@@ -13,7 +14,11 @@ class HttpInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val response = chain.proceed(chain.request())
         if (response.code >= 400) {
-            throw Exception(HttpError.getErrorString(response))
+            try {
+                throw Exception(HttpError.getErrorString(response))
+            } catch (e: Exception) {
+                Log.d("aaa", "intercept: $e")
+            }
         }
         val root = response.peekBody(Long.MAX_VALUE).string()
         val resultObject = JSONObject()

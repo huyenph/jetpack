@@ -33,11 +33,15 @@ android {
     productFlavors {
         dev {
             dimension "version"
-            buildConfigField "String", "API_URL", "\"http://192.168.1.122:5000/jetpack/\""
+            buildConfigField "String", "API_URL", "\"http://192.168.209.1:5000/jetpack/\""
+        }
+        stag {
+            dimension "version"
+            buildConfigField "String", "API_URL", "\"https://jetpack-api.herokuapp.com/jetpack/\""
         }
         pro {
             dimension "version"
-            buildConfigField "String", "API_URL", "\"http://192.168.1.122:5000/jetpack/\""
+            buildConfigField "String", "API_URL", "\"https://jetpack-api.herokuapp.com/jetpack/\""
         }
     }
 
