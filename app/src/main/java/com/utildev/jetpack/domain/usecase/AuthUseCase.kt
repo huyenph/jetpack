@@ -3,6 +3,7 @@ package com.utildev.jetpack.domain.usecase
 import com.google.gson.JsonObject
 import com.utildev.jetpack.data.remote.GenericResponse
 import com.utildev.jetpack.domain.repository.AuthRepository
+import com.utildev.jetpack.domain.request.auth.UserRequest
 import javax.inject.Inject
 
 class AuthUseCase @Inject constructor(
@@ -11,6 +12,6 @@ class AuthUseCase @Inject constructor(
     suspend fun fetchRoles(): GenericResponse<JsonObject> =
         authRepository.fetchRoles()
 
-    suspend fun createUser(userRequest: String): GenericResponse<JsonObject> =
+    suspend fun createUser(userRequest: UserRequest): GenericResponse<JsonObject> =
         authRepository.createUser(userRequest)
 }

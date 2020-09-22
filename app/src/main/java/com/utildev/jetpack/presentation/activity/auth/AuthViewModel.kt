@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
+import com.utildev.jetpack.common.SingleLiveData
 import com.utildev.jetpack.di.GsonBuilderLenient
 import com.utildev.jetpack.domain.request.auth.RoleRequest
 import com.utildev.jetpack.domain.request.auth.UserRequest
@@ -22,6 +23,7 @@ class AuthViewModel @ViewModelInject constructor(
     @GsonBuilderLenient private val gson: Gson
 ) : BaseViewModel() {
     var roles: MutableLiveData<ArrayList<RoleItem>> = MutableLiveData()
+    var signUpResult: SingleLiveData<Boolean> = SingleLiveData()
 
     override fun onSuccess(code: Int, type: Type?, response: JsonObject) {
         super.onSuccess(code, type, response)
@@ -31,12 +33,11 @@ class AuthViewModel @ViewModelInject constructor(
                 roles.value = role.items
             } else if (code == 2) {
                 val baseResponse = gson.fromJson(response, type) as BaseResponse
-                Log.d("aaa", "onSuccess: $baseResponse")
+                signUpResult.setValue(baseResponse.code == 201)
             }
         } catch (e: Exception) {
             Log.d("aaa", "onSuccess: $e")
         }
-
     }
 
     override fun onFailure(code: Int, errorResponse: ErrorResponse) {
@@ -78,8 +79,8 @@ class AuthViewModel @ViewModelInject constructor(
         launchDataLoad {
             apiClient.request(
                 2,
-                object: TypeToken<BaseResponse>(){}.type,
-                authUseCase.createUser(gson.toJson(userRequest))
+                object : TypeToken<BaseResponse>() {}.type,
+                authUseCase.createUser(userRequest)
             )
         }
     }

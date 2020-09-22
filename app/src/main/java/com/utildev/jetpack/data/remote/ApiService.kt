@@ -2,6 +2,7 @@ package com.utildev.jetpack.data.remote
 
 import com.google.gson.JsonObject
 import com.utildev.jetpack.data.remote.adapter.NetworkResponse
+import com.utildev.jetpack.domain.request.auth.UserRequest
 import com.utildev.jetpack.domain.response.ErrorResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -14,5 +15,5 @@ interface ApiService {
     suspend fun fetchRoles(): GenericResponse<JsonObject>
 
     @POST("user")
-    suspend fun createUser(@Body userRequest: String): GenericResponse<JsonObject>
+    suspend fun createUser(@Body userRequest: UserRequest): GenericResponse<JsonObject>
 }

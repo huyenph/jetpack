@@ -1,11 +1,12 @@
 package com.utildev.jetpack.presentation.fragment.auth
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.utildev.jetpack.BR
 import com.utildev.jetpack.R
 import com.utildev.jetpack.common.SpaceItemDecoration
@@ -68,22 +69,23 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, AuthViewModel>(),
             setHasFixedSize(true)
         }
         view.fmSignUp_rvRole.addItemDecoration(SpaceItemDecoration(spacingInPixel, 2, false))
+
+        viewModel()!!.signUpResult.observe(this, Observer {
+            Snackbar.make(view, if (it) "Success" else "Failed", Snackbar.LENGTH_LONG).show()
+        })
     }
 
     override fun onClick(v: View?) {
         if (v != null) {
             when (v.id) {
                 R.id.fmSignUp_tvSignUp -> {
-                    (activity as AuthActivity).authViewModel.createUser(
+                    viewModel()!!.createUser(
                         viewDataBinding().fmSignUpEtFirstName.text.trim().toString(),
                         viewDataBinding().fmSignUpEtLastName.text.trim().toString(),
                         viewDataBinding().fmSignUpEtEmail.text.trim().toString(),
                         viewDataBinding().fmSignUpEtPassword.text.trim().toString(),
                         selectedRoles
                     )
-//                    selectedRoles.forEach {
-//                        Log.d("aaa", "onClick: $it")
-//                    }
                 }
                 R.id.fmSignUp_tvSignIn -> v.findNavController().popBackStack()
             }
