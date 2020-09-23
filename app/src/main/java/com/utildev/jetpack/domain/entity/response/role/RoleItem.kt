@@ -1,4 +1,4 @@
-package com.utildev.jetpack.domain.response.role
+package com.utildev.jetpack.domain.entity.response.role
 
 import com.google.gson.annotations.SerializedName
 import com.utildev.jetpack.domain.BaseModel

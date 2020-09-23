@@ -5,7 +5,7 @@ import com.utildev.jetpack.data.remote.ApiService
 import com.utildev.jetpack.data.remote.GenericResponse
 import com.utildev.jetpack.di.AuthNetworkService
 import com.utildev.jetpack.domain.repository.AuthRepository
-import com.utildev.jetpack.domain.request.auth.UserRequest
+import com.utildev.jetpack.domain.entity.request.auth.UserRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

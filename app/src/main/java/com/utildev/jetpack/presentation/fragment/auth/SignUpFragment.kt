@@ -3,7 +3,6 @@ package com.utildev.jetpack.presentation.fragment.auth
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -11,8 +10,8 @@ import com.utildev.jetpack.BR
 import com.utildev.jetpack.R
 import com.utildev.jetpack.common.SpaceItemDecoration
 import com.utildev.jetpack.databinding.FragmentSignUpBinding
-import com.utildev.jetpack.domain.request.auth.RoleRequest
-import com.utildev.jetpack.domain.response.role.RoleItem
+import com.utildev.jetpack.domain.entity.request.auth.RoleRequest
+import com.utildev.jetpack.domain.entity.response.role.RoleItem
 import com.utildev.jetpack.presentation.activity.auth.AuthActivity
 import com.utildev.jetpack.presentation.activity.auth.AuthViewModel
 import com.utildev.jetpack.presentation.base.BaseAdapter
@@ -47,6 +46,14 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, AuthViewModel>(),
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+        viewModel()!!.signUpResult.observe(this, { it ->
+            it.getContentIfNotHandled()?.let {
+                Snackbar.make(rootView, if (it) "Success" else "Failed", Snackbar.LENGTH_LONG)
+                    .show()
+                if (it) handleBackPressed()
+            }
+        })
     }
 
     override fun layoutId(): Int = R.layout.fragment_sign_up
@@ -70,9 +77,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, AuthViewModel>(),
         }
         view.fmSignUp_rvRole.addItemDecoration(SpaceItemDecoration(spacingInPixel, 2, false))
 
-        viewModel()!!.signUpResult.observe(this, Observer {
-            Snackbar.make(view, if (it) "Success" else "Failed", Snackbar.LENGTH_LONG).show()
-        })
+
     }
 
     override fun onClick(v: View?) {
@@ -90,26 +95,6 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, AuthViewModel>(),
                 R.id.fmSignUp_tvSignIn -> v.findNavController().popBackStack()
             }
         }
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SignUpFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SignUpFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 
     override fun onItemClick(`object`: Any, position: Int) {
@@ -130,4 +115,24 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, AuthViewModel>(),
     override fun onItemLongClick(`object`: Any, position: Int): Boolean = false
 
     override fun onLoadMore() {}
+
+    companion object {
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param param1 Parameter 1.
+         * @param param2 Parameter 2.
+         * @return A new instance of fragment SignUpFragment.
+         */
+        // TODO: Rename and change types and number of parameters
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+            SignUpFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)
+                }
+            }
+    }
 }

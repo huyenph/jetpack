@@ -61,6 +61,10 @@ class SignInFragment : BaseFragment<FragmentSignInBinding, AuthViewModel>() {
         }
     }
 
+    override fun handleBackPressed() {
+        (activity as AuthActivity).handleOnBackPressed()
+    }
+
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -80,6 +84,4 @@ class SignInFragment : BaseFragment<FragmentSignInBinding, AuthViewModel>() {
                 }
             }
     }
-
-
 }

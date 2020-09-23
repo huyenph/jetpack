@@ -6,14 +6,14 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
-import com.utildev.jetpack.common.SingleLiveData
+import com.utildev.jetpack.common.Event
 import com.utildev.jetpack.di.GsonBuilderLenient
-import com.utildev.jetpack.domain.request.auth.RoleRequest
-import com.utildev.jetpack.domain.request.auth.UserRequest
-import com.utildev.jetpack.domain.response.BaseResponse
-import com.utildev.jetpack.domain.response.ErrorResponse
-import com.utildev.jetpack.domain.response.role.RoleResponse
-import com.utildev.jetpack.domain.response.role.RoleItem
+import com.utildev.jetpack.domain.entity.request.auth.RoleRequest
+import com.utildev.jetpack.domain.entity.request.auth.UserRequest
+import com.utildev.jetpack.domain.entity.response.BaseResponse
+import com.utildev.jetpack.domain.entity.response.ErrorResponse
+import com.utildev.jetpack.domain.entity.response.role.RoleResponse
+import com.utildev.jetpack.domain.entity.response.role.RoleItem
 import com.utildev.jetpack.domain.usecase.AuthUseCase
 import com.utildev.jetpack.presentation.base.BaseViewModel
 import java.lang.reflect.Type
@@ -22,18 +22,23 @@ class AuthViewModel @ViewModelInject constructor(
     private val authUseCase: AuthUseCase,
     @GsonBuilderLenient private val gson: Gson
 ) : BaseViewModel() {
-    var roles: MutableLiveData<ArrayList<RoleItem>> = MutableLiveData()
-    var signUpResult: SingleLiveData<Boolean> = SingleLiveData()
+    private val _roles = MutableLiveData<ArrayList<RoleItem>>()
+    val roles: MutableLiveData<ArrayList<RoleItem>>
+        get() = _roles
+
+    private val _signUpResult = MutableLiveData<Event<Boolean>>()
+    val signUpResult: MutableLiveData<Event<Boolean>>
+        get() = _signUpResult
 
     override fun onSuccess(code: Int, type: Type?, response: JsonObject) {
         super.onSuccess(code, type, response)
         try {
             if (code == 1) {
                 val role = gson.fromJson(response, type) as RoleResponse
-                roles.value = role.items
+                _roles.value = role.items
             } else if (code == 2) {
                 val baseResponse = gson.fromJson(response, type) as BaseResponse
-                signUpResult.setValue(baseResponse.code == 201)
+                _signUpResult.value = Event(baseResponse.code == 201)
             }
         } catch (e: Exception) {
             Log.d("aaa", "onSuccess: $e")
@@ -62,6 +67,10 @@ class AuthViewModel @ViewModelInject constructor(
         }
     }
 
+    fun login(email: String, password: String) {
+
+    }
+
     fun createUser(
         firstName: String,
         lastName: String,
@@ -76,12 +85,13 @@ class AuthViewModel @ViewModelInject constructor(
             password,
             roles
         )
-        launchDataLoad {
-            apiClient.request(
-                2,
-                object : TypeToken<BaseResponse>() {}.type,
-                authUseCase.createUser(userRequest)
-            )
-        }
+        _signUpResult.value = Event(true)
+//        launchDataLoad {
+//            apiClient.request(
+//                2,
+//                object : TypeToken<BaseResponse>() {}.type,
+//                authUseCase.createUser(userRequest)
+//            )
+//        }
     }
 }

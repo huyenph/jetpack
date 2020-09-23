@@ -1,65 +1,43 @@
 package com.utildev.jetpack.common
 
+import android.util.Log
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import java.util.*
-import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicBoolean
 
-@Suppress("UNCHECKED_CAST", "TYPE_INFERENCE_ONLY_INPUT_TYPES_WARNING")
-class SingleLiveData<T> : MediatorLiveData<T>() {
-    private val observers = ConcurrentHashMap<LifecycleOwner, MutableSet<ObserverWrapper<T>>>()
+class SingleLiveData<T> : MutableLiveData<T>() {
+    companion object {
+        const val TAG = "SingleLiveEvent"
+    }
+    private val pending = AtomicBoolean(false)
 
     @MainThread
     override fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
-        val wrapper = ObserverWrapper(observer)
-        val set = observers[owner]
-        set?.apply {
-            add(wrapper as ObserverWrapper<T>)
-        } ?: run {
-            val newSet = Collections.newSetFromMap(ConcurrentHashMap<ObserverWrapper<T>, Boolean>())
-            newSet.add(wrapper as ObserverWrapper<T>?)
-            observers[owner] = newSet
+        if (hasActiveObservers()) {
+            Log.w(TAG, "Multiple observers registered but only one will be notified of changes.")
         }
-        super.observe(owner, observer)
-    }
 
-    override fun removeObservers(owner: LifecycleOwner) {
-        observers.remove(owner)
-        super.removeObservers(owner)
-    }
-
-    override fun removeObserver(observer: Observer<in T>) {
-        observers.forEach {
-            if (it.value.remove(observer)) {
-                if (it.value.isEmpty()) {
-                    observers.remove(it.key)
-                }
-                return@forEach
-            }
-        }
-        super.removeObserver(observer)
-    }
-
-    @MainThread
-    override fun setValue(value: T) {
-        observers.forEach { it.value.forEach { wrapper -> wrapper.newValue() } }
-        super.setValue(value)
-    }
-
-    private class ObserverWrapper<T>(private val observer: Observer<T>) : Observer<T> {
-        private val pending = AtomicBoolean(false)
-
-        override fun onChanged(t: T) {
+        // Observe the internal MutableLiveData
+        super.observe(owner, { t ->
             if (pending.compareAndSet(true, false)) {
                 observer.onChanged(t)
             }
-        }
+        })
+    }
 
-        fun newValue() {
-            pending.set(false)
-        }
+    @MainThread
+    override fun setValue(value: T?) {
+        pending.set(true)
+        super.setValue(value)
+    }
+
+    /**
+     * Used for case where T is Void, to make calls cleaner
+     */
+    @MainThread
+    fun call() {
+        value = null
     }
 }

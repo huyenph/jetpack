@@ -33,9 +33,8 @@ abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel> : Fragment()
         super.onCreate(savedInstanceState)
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-               handleOnBackPressed()
+               handleBackPressed()
             }
-
         }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
@@ -55,7 +54,7 @@ abstract class BaseFragment<T : ViewDataBinding, V : BaseViewModel> : Fragment()
         return rootView
     }
 
-    open fun handleOnBackPressed() {
+     open fun handleBackPressed() {
         rootView.findNavController().popBackStack()
     }
 }

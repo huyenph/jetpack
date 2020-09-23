@@ -1,9 +1,9 @@
-package com.utildev.jetpack.domain.response
+package com.utildev.jetpack.domain.entity.response.role
 
 import com.google.gson.annotations.SerializedName
 import com.utildev.jetpack.domain.BaseModel
 
-data class BaseResponse(
+data class RoleResponse(
     @SerializedName("message") val message: String? = null,
-    @SerializedName("code") val code: Int
+    @SerializedName("items") val items: ArrayList<RoleItem>? = null
 ) : BaseModel()

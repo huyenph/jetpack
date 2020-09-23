@@ -3,7 +3,7 @@ package com.utildev.jetpack.domain.usecase
 import com.google.gson.JsonObject
 import com.utildev.jetpack.data.remote.GenericResponse
 import com.utildev.jetpack.domain.repository.AuthRepository
-import com.utildev.jetpack.domain.request.auth.UserRequest
+import com.utildev.jetpack.domain.entity.request.auth.UserRequest
 import javax.inject.Inject
 
 class AuthUseCase @Inject constructor(

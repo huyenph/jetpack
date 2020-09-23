@@ -1,4 +1,4 @@
-package com.utildev.jetpack.domain.request.auth
+package com.utildev.jetpack.domain.entity.request.auth
 
 import com.google.gson.annotations.SerializedName
 import com.utildev.jetpack.domain.BaseModel
