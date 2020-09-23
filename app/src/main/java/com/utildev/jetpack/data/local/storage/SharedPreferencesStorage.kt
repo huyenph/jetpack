@@ -47,4 +47,7 @@ class SharedPreferencesStorage @Inject constructor(@ApplicationContext context: 
 
     override fun getBoolean(key: String): Boolean = sharedPrefs.getBoolean(key, false)
 
+    companion object {
+        const val TOKEN = "token"
+    }
 }

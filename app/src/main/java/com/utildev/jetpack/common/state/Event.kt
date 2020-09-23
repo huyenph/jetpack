@@ -1,4 +1,4 @@
-package com.utildev.jetpack.common
+package com.utildev.jetpack.common.state
 
 open class Event<out T>(private val content: T) {
     var hasBeenHandled = false

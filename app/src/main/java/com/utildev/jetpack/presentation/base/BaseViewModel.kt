@@ -7,10 +7,12 @@ import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
+import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.utildev.jetpack.data.local.storage.Storage
 import com.utildev.jetpack.data.remote.ApiClient
-import com.utildev.jetpack.domain.entity.response.ErrorResponse
+import com.utildev.jetpack.di.GsonBuilderLenient
+import com.utildev.jetpack.domain.model.response.ErrorResponse
 import kotlinx.coroutines.launch
 import java.lang.reflect.Type
 import javax.inject.Inject

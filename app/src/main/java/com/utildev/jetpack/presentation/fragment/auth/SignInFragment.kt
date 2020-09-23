@@ -3,7 +3,9 @@ package com.utildev.jetpack.presentation.fragment.auth
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.utildev.jetpack.BR
 import com.utildev.jetpack.R
 import com.utildev.jetpack.databinding.FragmentSignInBinding
@@ -35,6 +37,13 @@ class SignInFragment : BaseFragment<FragmentSignInBinding, AuthViewModel>() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+        viewModel()!!.loginResult.observe(this, { it ->
+            it.getContentIfNotHandled()?.let {
+                Snackbar.make(rootView, it.message, Snackbar.LENGTH_LONG)
+                    .show()
+            }
+        })
     }
 
     override fun layoutId(): Int = R.layout.fragment_sign_in
@@ -52,6 +61,10 @@ class SignInFragment : BaseFragment<FragmentSignInBinding, AuthViewModel>() {
         if (v != null) {
             when (v.id) {
                 R.id.fmSignIn_tvSignIn -> {
+                    viewModel()!!.login(
+                        rootView.fmSignIn_etEmail.text.toString().trim(),
+                        rootView.fmSignIn_etPassword.text.toString().trim()
+                    )
                 }
                 R.id.fmSignIn_tvSignUp -> {
                     val action = SignInFragmentDirections.signInToSignUp()

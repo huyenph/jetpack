@@ -1,7 +1,8 @@
-package com.utildev.jetpack.domain.entity.request.auth
+package com.utildev.jetpack.domain.model.request.auth
 
 import com.google.gson.annotations.SerializedName
 import com.utildev.jetpack.domain.BaseModel
+import com.utildev.jetpack.domain.model.request.RoleRequest
 
 data class UserRequest(
     @SerializedName("first_name") val firstName: String,

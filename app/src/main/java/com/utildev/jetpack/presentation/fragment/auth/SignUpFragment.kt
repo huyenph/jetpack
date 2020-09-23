@@ -10,8 +10,8 @@ import com.utildev.jetpack.BR
 import com.utildev.jetpack.R
 import com.utildev.jetpack.common.SpaceItemDecoration
 import com.utildev.jetpack.databinding.FragmentSignUpBinding
-import com.utildev.jetpack.domain.entity.request.auth.RoleRequest
-import com.utildev.jetpack.domain.entity.response.role.RoleItem
+import com.utildev.jetpack.domain.model.request.RoleRequest
+import com.utildev.jetpack.domain.model.response.role.RoleItem
 import com.utildev.jetpack.presentation.activity.auth.AuthActivity
 import com.utildev.jetpack.presentation.activity.auth.AuthViewModel
 import com.utildev.jetpack.presentation.base.BaseAdapter

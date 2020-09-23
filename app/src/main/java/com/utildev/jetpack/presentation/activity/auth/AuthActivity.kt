@@ -7,7 +7,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.utildev.jetpack.BR
 import com.utildev.jetpack.R
 import com.utildev.jetpack.databinding.ActivityAuthBinding
-import com.utildev.jetpack.domain.entity.response.role.RoleItem
+import com.utildev.jetpack.domain.model.response.role.RoleItem
 import com.utildev.jetpack.presentation.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 

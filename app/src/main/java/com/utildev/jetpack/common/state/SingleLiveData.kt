@@ -1,4 +1,4 @@
-package com.utildev.jetpack.common
+package com.utildev.jetpack.common.state
 
 import android.util.Log
 import androidx.annotation.MainThread
