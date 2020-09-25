@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:layout_height="wrap_content"
+    tools:layout_width="match_parent"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/vSimpleSnackbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/errorColor">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/vSimpleSnackbar_ivLabel"
+            android:layout_width="@dimen/_30dp"
+            android:layout_height="@dimen/_30dp"
+            android:layout_margin="@dimen/_15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_baseline_check_circle_outline" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/vSimpleSnackbar_tvMessage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15dp"
+            android:layout_marginEnd="@dimen/_15dp"
+            android:textColor="@color/background"
+            android:textSize="@dimen/_15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/vSimpleSnackbar_tvAction"
+            app:layout_constraintStart_toEndOf="@id/vSimpleSnackbar_ivLabel"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="This is message" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/vSimpleSnackbar_tvAction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_15dp"
+            android:textColor="@color/background"
+            android:textSize="@dimen/_15dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Done" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</merge>

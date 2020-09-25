@@ -3,6 +3,7 @@ package com.utildev.jetpack.presentation.fragment.auth
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -16,6 +17,7 @@ import com.utildev.jetpack.presentation.activity.auth.AuthActivity
 import com.utildev.jetpack.presentation.activity.auth.AuthViewModel
 import com.utildev.jetpack.presentation.base.BaseAdapter
 import com.utildev.jetpack.presentation.base.BaseFragment
+import com.utildev.jetpack.presentation.view.snackbar.SimpleCustomSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_sign_up.view.*
 
@@ -49,9 +51,16 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, AuthViewModel>(),
 
         viewModel()!!.signUpResult.observe(this, { it ->
             it.getContentIfNotHandled()?.let {
-                Snackbar.make(rootView, if (it) "Success" else "Failed", Snackbar.LENGTH_LONG)
-                    .show()
-                if (it) handleBackPressed()
+                SimpleCustomSnackbar.make(
+                    rootView,
+                    if (it) "Success" else "Failed",
+                    Snackbar.LENGTH_LONG,
+                    R.drawable.ic_baseline_error_outline,
+                    "RETRY",
+                    ContextCompat.getColor(requireContext(), R.color.errorColor),
+                    this
+                    )?.show()
+//                if (it) handleBackPressed()
             }
         })
     }
@@ -76,8 +85,6 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, AuthViewModel>(),
             setHasFixedSize(true)
         }
         view.fmSignUp_rvRole.addItemDecoration(SpaceItemDecoration(spacingInPixel, 2, false))
-
-
     }
 
     override fun onClick(v: View?) {
@@ -93,6 +100,13 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, AuthViewModel>(),
                     )
                 }
                 R.id.fmSignUp_tvSignIn -> v.findNavController().popBackStack()
+                R.id.vSimpleSnackbar_tvAction -> {
+                    rootView.fmSignUp_etFirstName.text.clear()
+                    rootView.fmSignUp_etLastName.text.clear()
+                    rootView.fmSignUp_etEmail.text.clear()
+                    rootView.fmSignUp_etPassword.text.clear()
+                    roleAdapter.resetRolesState()
+                }
             }
         }
     }

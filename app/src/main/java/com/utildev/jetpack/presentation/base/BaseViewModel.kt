@@ -18,10 +18,11 @@ import java.lang.reflect.Type
 import javax.inject.Inject
 
 @Suppress("LeakingThis")
-open class BaseViewModel @ViewModelInject constructor() : ViewModel(),
+open class BaseViewModel @ViewModelInject constructor(
+    private val storage: Storage,
+    @GsonBuilderLenient private val gson: Gson
+) : ViewModel(),
     ApiClient.ApiResponseListener {
-    @Inject
-    lateinit var storage: Storage
 
     val messageString = ObservableField<String>()
     val loadingView = ObservableInt(View.GONE)

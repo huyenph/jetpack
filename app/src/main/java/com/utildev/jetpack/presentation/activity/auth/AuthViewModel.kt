@@ -23,9 +23,10 @@ import com.utildev.jetpack.presentation.base.BaseViewModel
 import java.lang.reflect.Type
 
 class AuthViewModel @ViewModelInject constructor(
+    private val storage: SharedPreferencesStorage,
+    @GsonBuilderLenient private val gson: Gson,
     private val authUseCase: AuthUseCase,
-    @GsonBuilderLenient private val gson: Gson
-) : BaseViewModel() {
+) : BaseViewModel(storage, gson) {
     private val _roles = MutableLiveData<ArrayList<RoleItem>>()
     val roles: MutableLiveData<ArrayList<RoleItem>>
         get() = _roles

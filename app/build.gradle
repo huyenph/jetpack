@@ -33,7 +33,7 @@ android {
     productFlavors {
         dev {
             dimension "version"
-            buildConfigField "String", "API_URL", "\"http://192.168.209.230:5000/jetpack/\""
+            buildConfigField "String", "API_URL", "\"http://192.168.205.119:5000/jetpack/\""
         }
         stag {
             dimension "version"
